@@ -39,6 +39,7 @@ export const useWebSocket = (): UseWebSocketReturn => {
 
   const connectWebSocket = useCallback(() => {
     setConnectionStatus('connecting');
+    // wss://chatapp.rithkchaudharytechnologies.xyz/ws/
     const socket = new WebSocket("wss://chatapp.rithkchaudharytechnologies.xyz/ws/");
     
     socket.onopen = () => {

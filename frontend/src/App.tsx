@@ -57,7 +57,6 @@ function App() {
       handleSendMessage();
     }
   };
-
   if (appState === 'join') {
     return (
       <JoinScreen

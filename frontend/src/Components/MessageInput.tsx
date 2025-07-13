@@ -1,5 +1,6 @@
-import React from 'react';
-import { Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Send, Smile } from 'lucide-react';
+import EmojiPicker from 'emoji-picker-react';
 
 interface MessageInputProps {
   currentMessage: string;
@@ -14,11 +15,17 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   onSendMessage,
   onKeyPress
 }) => {
+  const [showPicker, setShowPicker] = useState(false);
+
+  const handleEmojiClick = (emojiData: any) => {
+    onMessageChange(currentMessage + emojiData.emoji);
+  };
+
   return (
-    <div className="bg-white border-t border-gray-200 p-4">
+    <div className="bg-white border-t border-gray-200 p-4 relative">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-end space-x-3">
-          <div className="flex-1">
+          <div className="flex flex-col flex-1 relative">
             <textarea
               value={currentMessage}
               onChange={(e) => onMessageChange(e.target.value)}
@@ -28,7 +35,22 @@ export const MessageInput: React.FC<MessageInputProps> = ({
               rows={1}
               maxLength={500}
             />
+
+            <button
+              onClick={() => setShowPicker((prev) => !prev)}
+              className="absolute bottom-2 right-2 p-1 rounded-md hover:bg-gray-100 transition"
+              type="button"
+            >
+              <Smile className="w-5 h-5 text-gray-500" />
+            </button>
+
+            {showPicker && (
+              <div className="absolute bottom-12 left-0 z-50">
+                <EmojiPicker onEmojiClick={handleEmojiClick} />
+              </div>
+            )}
           </div>
+
           <button
             onClick={onSendMessage}
             disabled={!currentMessage.trim()}
